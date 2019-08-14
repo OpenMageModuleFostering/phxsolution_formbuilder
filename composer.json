@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Phxsolution_Formbuilder",
+    "type": "magento-module",
+    "license": "OSLv3.0",
+    "homepage": "",
+    "description": "Custom form builder",
+    "authors": [
+    {
+        "name": "Murad Ali",
+        "email": "contact@phxsolution.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
