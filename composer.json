@@ -3,7 +3,7 @@
     "type": "magento-module",
     "license": "OSLv3.0",
     "homepage": "",
-    "description": "Custom form builder",
+    "description": "Form Builder allows you to create any type of form right from admin panel. ",
     "authors": [
     {
         "name": "Murad Ali",
