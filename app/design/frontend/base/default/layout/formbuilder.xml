@@ -24,7 +24,7 @@
 * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
 */
 -->
-<layout version="0.3.0">
+<layout version="0.3.1">
 	<default translate="label" module="formbuilder">
 		<reference name="head">
             <action method="addCss">
@@ -65,20 +65,6 @@
         </reference>
         
         
-        <!-- <reference name="head">
-            <action method="addCss">
-                <stylesheet>css/formbuilder/bootstrap-responsive.css</stylesheet>
-            </action>
-            <action method="addCss">
-                <stylesheet>css/formbuilder/bootstrap.min.css</stylesheet>
-            </action>
-            <action method="addJs">
-                <script>formbuilder/jquery-1.11.1.min.js</script>
-            </action>
-            <action method="addJs">
-                <script>formbuilder/bootstrap.min.js</script>
-            </action>
-        </reference> -->
         
         <reference name="content">
         <block type="formbuilder/frontend_formbuilder" name="frontend_formbuilder" template="formbuilder/formbuilder.phtml" />
@@ -90,12 +76,6 @@
         </reference>        
         <reference name="content">
             <block type="formbuilder/frontend_form" name="frontend_form" template="formbuilder/form.phtml" />
-            <!-- <block type="formbuilder/frontend_text" name="frontend_text" template="formbuilder/text.phtml" />
-            <block type="formbuilder/frontend_select" name="frontend_select" template="formbuilder/select.phtml" />
-            <block type="formbuilder/frontend_file" name="frontend_file" template="formbuilder/file.phtml" />
-            <block type="formbuilder/frontend_date" name="frontend_date" template="formbuilder/date.phtml" /> -->
-            <!-- <block type="core/template" name="options_js" template="catalog/product/view/options/js.phtml"/> -->
-            <!-- <block type="core/html_calendar" name="html_calendar" as="html_calendar" template="page/js/calendar.phtml" /> -->
         </reference>
     </formbuilder_index_view>
 </layout>

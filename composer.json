@@ -3,7 +3,7 @@
     "type": "magento-module",
     "license": "OSLv3.0",
     "homepage": "",
-    "description": "Releasing update of the extension, version 0.3.0 with email Email functionality & Issues of Form title & Form status not getting saved.",
+    "description": "Fixed some bugs of version 0.3.0",
     "authors": [
     {
         "name": "murad.magento",

@@ -27,10 +27,6 @@
 <?php
 class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {     
-    public function test($test)
-    {
-    	return "hello ".$test;
-    }
     public function render(Varien_Object $row, $recordId=0, $fieldId=0, $serializedValue=0)
     {
         /*$recordId = intval($row->getData('records_index'));
@@ -89,12 +85,11 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue e
 					    if ($gd === false)
 					    	return "Image seems corrupted or not found";
 					    //else					    
-					    $html = '<img height=75 width=75 ';
-				        $html .= 'src="'. Mage::getBaseUrl('media') . $returnValue . '"';
-				        $html .= 'class="grid-image ' . $this->getColumn()->getInlineCss().'"';
-						$html .= 'style="weight:75px;height:75px"' . '"/>';
+					    $html = '<img height=75 width=150 ';
+				        $html .= 'src="'. Mage::getBaseUrl('media') . $returnValue . '" ';
+				        $html .= 'class="grid-image" ';
+						$html .= 'style="max-height:75px;max-width:150px" />';
 				        return $html;
-					    
 					}
 					else
 					    return $returnValue;

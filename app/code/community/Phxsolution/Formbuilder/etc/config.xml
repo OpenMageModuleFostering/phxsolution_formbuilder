@@ -17,7 +17,7 @@
 *
 * @category   module configuration
 * @package    Phxsolution_Formbuilder
-* @author     Murad Ali
+* @author     murad.magento
 * @contact    contact@phxsolution.com
 * @site       www.phxsolution.com
 * @copyright  Copyright (c) 2014 Phxsolution Formbuilder
@@ -27,7 +27,7 @@
 <config>
     <modules>
         <Phxsolution_Formbuilder>
-            <version>0.3.0</version>
+            <version>0.3.1</version>
         </Phxsolution_Formbuilder>
     </modules>
     <frontend>
