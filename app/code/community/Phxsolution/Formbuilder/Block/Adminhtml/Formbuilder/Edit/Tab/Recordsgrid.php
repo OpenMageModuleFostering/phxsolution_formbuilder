@@ -62,7 +62,6 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Edit_Tab_Recordsgrid e
         /*echo "<pre>";
         print_r($prepareFieldTitles);
         echo "</pre>";*/
-
         if(count($prepareFieldTitles))
         {
             $this->addColumn('records_index', array(
@@ -87,7 +86,6 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Edit_Tab_Recordsgrid e
                 ));
             }
         }
-
         
         /*$this->addColumn('records_index', array(
             'header' => Mage::helper('formbuilder')->__('ID'),

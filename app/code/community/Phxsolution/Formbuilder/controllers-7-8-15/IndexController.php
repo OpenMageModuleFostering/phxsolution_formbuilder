@@ -34,11 +34,6 @@ class Phxsolution_Formbuilder_IndexController extends Mage_Core_Controller_Front
 	protected $_fileType;
 	protected $_recordsModel;
 	protected $_fileObject;
-	protected $_lastInsertedRecordId;
-	protected $_lastInsertedRecordValue;
-	protected $_currentFormTitle;
-	protected $_send_email_to_customer = false;
-	protected $_send_email_to_admin = false;
 	
 	public function preDispatch()
     {
@@ -87,7 +82,6 @@ class Phxsolution_Formbuilder_IndexController extends Mage_Core_Controller_Front
 		$currentForm = Mage::helper('formbuilder')->getCurrentFormDetails($this->_currentFormId);
 		$currentFormTitle = "";
 		$currentFormTitle = $currentForm['title'];
-		$this->_currentFormTitle = $currentFormTitle;
 
 		if($currentFormTitle)
 			$this->getLayout()->getBlock("head")->setTitle($this->__($currentFormTitle));
@@ -404,153 +398,11 @@ class Phxsolution_Formbuilder_IndexController extends Mage_Core_Controller_Front
         $data['value'] = $serialized;
         $this->_recordsModel->setData($data);
 		if($this->_recordsModel->save())
-		{
 			$returnStatus = true;
-			$this->_lastInsertedRecordId = $this->_recordsModel->getRecordsIndex();
-			$this->_lastInsertedRecordValue = $this->_recordsModel->getValue();
-		}
 		else
 			$returnStatus = false;
 		return $returnStatus;
         
-	}
-	public function sendEmail($data)
-	{
-		$currentFormId = $this->_currentFormId;
-        $fieldsModel = Mage::helper('formbuilder')->getFieldsModel();
-        $prepareFieldTitles = array();
-        $prepareFieldTitles = $fieldsModel->prepareFieldTitles($currentFormId);
-
-        //current form title
-        $currentForm = Mage::helper('formbuilder')->getCurrentFormDetails($this->_currentFormId);
-		$this->_currentFormTitle = $currentForm['title'];
-
-        $userDetailHtml = "";
-        $userDetailHtml .= '<table width="100%" style="font-family: sans-serif; border: 1px solid #ccc;"><thead>
-								<tr>
-									<th colspan="2" style="padding: 10px; background:#ccc;">We received the following data:</th>
-								</tr>
-								<tr>
-									<td width="130" style="background:#f2f2f2; padding:5px; text-align: right;">Form Title</td>
-									<td style="background:#f5f2f0; padding:5px;">'.$this->_currentFormTitle.'</td>
-								</tr>';
-
-        foreach ($prepareFieldTitles as $fieldId => $fieldTitle)
-        {
-        	if($this->_lastInsertedRecordId && $this->_lastInsertedRecordValue)
-        	{
-        		$_blockData = $this->getLayout()->getBlockSingleton('Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue')->render(null,$this->_lastInsertedRecordId,$fieldId,$this->_lastInsertedRecordValue);
-        		$userDetailHtml .= '<tr>
-										<td width="130" style="background:#f2f2f2; padding:5px; text-align: right;">'.$fieldTitle.'</td>
-										<td style="background:#f5f2f0; padding:5px;">'.$_blockData.'</td>
-									</tr>';
-        	}
-        }
-        $userDetailHtml .= '</thead></table>';
-        
-
-        if (Mage::getSingleton('customer/session')->isLoggedIn())
-		{
-			// Load the customer's data
-    		$customer = Mage::getSingleton('customer/session')->getCustomer();
-    		$email = $customer->getEmail();
-    		$fname = $customer->getFirstname();
-    		$lname = $customer->getLastname();
-    		
-			$email_logo = Mage::getStoreConfig('design/email/logo');
-			$senderName = Mage::getStoreConfig('formbuilder_section/form_submission_email/sender_name'); //sender name
-			$senderEmail = Mage::getStoreConfig('formbuilder_section/form_submission_email/sender_email'); //sender email
-			$email_subject_for_customer = Mage::getStoreConfig('formbuilder_section/form_submission_email/email_subject_for_customer'); //email subject
-			$email_content_for_customer = Mage::getStoreConfig('formbuilder_section/form_submission_email/email_content_for_customer'); //email content
-			
-			$email_desc = str_replace("{{Name}}",$fname." ".$lname,$email_content_for_customer);
-			$email_desc = str_replace("{{FormData}}",$userDetailHtml,$email_desc);
-			$store_name = Mage::getStoreConfig('general/store_information/name');
-			$store_phone = Mage::getStoreConfig('general/store_information/phone');
-		
-			$img_media =  Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA).'email/logo/'; 
-		
-			$img_logo_final = $img_media.$email_logo;
-			$default_logo =  Mage::getStoreConfig('design/header/logo_src');	
-			$logo_default = Mage::getDesign()->getSkinUrl().$default_logo; 
-			$email_desc = str_replace("{{Storename}}",$store_name,$email_desc);
-			$email_desc = str_replace("{{Storephone}}",$store_phone,$email_desc);
-				
-			if($img_logo_final == $img_media)
-			{
-				$logo_img = "<img src='$logo_default'/>"; 
-			}
-			else
-			{
-				$logo_img =   "<img src='$img_logo_final'/>";
-			}
-			$customerContent = '<table border="0">
-								<tr>
-									<td>
-										<table border="0">
-											<tr>
-												<Td>'.$logo_img.'</Td>
-											</tr>
-											<tr>
-												<td colspan="2">&nbsp;</td></tr>
-											<tr>
-												<Td><p>'.$email_desc.'. </p></Td>
-											</tr>											
-										</table>
-									</td>
-								</tr>
-							</table>';
-			$headers = "";			
-			$headers  .= 'MIME-Version: 1.0'."\r\n";
-			$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$headers .= 'From:'. $senderName.' <'.$senderEmail.'>';
-
-
-			//preparing email for admin if send_email_to_admin
-			if($this->_send_email_to_admin)
-			{
-				$email_subject_for_admin = Mage::getStoreConfig('formbuilder_section/form_submission_email/email_subject_for_admin'); //email subject
-				$email_content_for_admin = Mage::getStoreConfig('formbuilder_section/form_submission_email/email_content_for_admin'); //email content				
-				$CustomerEmail = $email;
-				$Storename = $store_name;
-				$FormData = $userDetailHtml;
-				$email_desc2 = str_replace("{{CustomerEmail}}",$CustomerEmail,$email_content_for_admin);
-				$email_desc2 = str_replace("{{Storename}}",$Storename,$email_desc2);
-				$email_desc2 = str_replace("{{FormData}}",$FormData,$email_desc2);
-				$adminContent = '<table border="0">
-								<tr>
-									<td>
-										<table border="0">
-											<tr>
-												<Td>'.$logo_img.'</Td>
-											</tr>
-											<tr>
-												<td colspan="2">&nbsp;</td></tr>
-											<tr>
-												<Td><p>'.$email_desc2.'. </p></Td>
-											</tr>											
-										</table>
-									</td>
-								</tr>
-							</table>';
-			}
-			try
-			{
-				//Mage::getSingleton('core/session')->addNotice('within sendEmail - if customer isLoggedIn - try sending mail');
-				if($this->_send_email_to_customer)
-					mail($email,$email_subject_for_customer,$customerContent,$headers);
-				if($this->_send_email_to_admin)
-					mail($email,$email_subject_for_admin,$adminContent,$headers);
-			}
-			catch (Exception $e)
-			{
-				Mage::getSingleton('core/session')->addError('Error sending email');
-				//$this->_redirectReferer();
-			}
-		}
-		else
-			//Mage::getSingleton('core/session')->addNotice('Email sending failed as customer is guest');
-			;
 	}
 	public function formsubmitAction()
 	{
@@ -694,10 +546,6 @@ class Phxsolution_Formbuilder_IndexController extends Mage_Core_Controller_Front
 		        	if(!$successText)
 		        		$successText = 'Form submitted successfully, we will reach you soon.';
 		        	$session->addSuccess($this->_helper->__($successText));
-		        	$this->_send_email_to_customer = Mage::getStoreConfig('formbuilder_section/form_submission_email/send_email_to_customer');
-    				$this->_send_email_to_admin = Mage::getStoreConfig('formbuilder_section/form_submission_email/send_email_to_admin');
-		        	if($this->_send_email_to_customer || $this->_send_email_to_admin)
-		        		$this->sendEmail($data);
 		        	if($this->_getRedirectUrl)
 		        		$this->_redirectUrl(Mage::getUrl($this->_getRedirectUrl));
 		        	//return;

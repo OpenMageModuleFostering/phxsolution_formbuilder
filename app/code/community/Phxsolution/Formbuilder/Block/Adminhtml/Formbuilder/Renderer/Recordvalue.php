@@ -27,27 +27,22 @@
 <?php
 class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue extends Mage_Adminhtml_Block_Widget_Grid_Column_Renderer_Abstract
 {     
-    public function render(Varien_Object $row)
+    public function test($test)
+    {
+    	return "hello ".$test;
+    }
+    public function render(Varien_Object $row, $recordId=0, $fieldId=0, $serializedValue=0)
     {
         /*$recordId = intval($row->getData('records_index'));
         $fieldId = intval($this->getColumn()->getIndex());
-        $i = intval($this->getColumn()->getName());
-        //return "recordId=".$recordId.", fieldId=".$fieldId;
-        
-        $recordsModel = Mage::helper('formbuilder')->getRecordsModel();
-        $recordsModel->load($recordId);
-        if($recordsModel['fields_index']==$fieldId)
-        	return "($fieldId) ".$recordsModel['value'];
-        return "($fieldId)";*/
-
-        $recordId = intval($row->getData('records_index'));
-        $fieldId = intval($this->getColumn()->getIndex());
-        $i = intval($this->getColumn()->getName());
+        $i = intval($this->getColumn()->getName());*/
+        $recordId = ($recordId) ? $recordId : intval($row->getData('records_index'));
+        $fieldId = ($fieldId) ? $fieldId : intval($this->getColumn()->getIndex());
         $found = false;
         
 		//$serialized = 'a:3:{i:8;s:16:"test first name3";i:9;s:15:"test last name3";i:10;s:1:"7";}';
-		$serialized = $row->getData('value');
-		$unserialized = unserialize($serialized);
+		$serializedValue = ($serializedValue) ? $serializedValue : $row->getData('value');
+		$unserialized = unserialize($serializedValue);
         $recordsModel = Mage::helper('formbuilder')->getRecordsModel();
         foreach ($unserialized as $key => $value)
         {        	

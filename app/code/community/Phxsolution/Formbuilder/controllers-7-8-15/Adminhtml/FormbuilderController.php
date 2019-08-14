@@ -264,9 +264,7 @@ class Phxsolution_Formbuilder_Adminhtml_FormbuilderController extends Mage_Admin
                 /*$data['title'] = $data['in_toplinks'];
 				$data['title_image'] = $data['in_menu'];*/
 
-				
-
-                $model->setData($data)
+                $model->addData($data)
                 	->setFormsIndex($this->getRequest()->getParam("id"))
                 	->save();
 

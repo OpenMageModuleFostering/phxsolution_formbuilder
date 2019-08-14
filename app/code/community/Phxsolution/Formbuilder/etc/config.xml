@@ -27,7 +27,7 @@
 <config>
     <modules>
         <Phxsolution_Formbuilder>
-            <version>0.2.0</version>
+            <version>0.3.0</version>
         </Phxsolution_Formbuilder>
     </modules>
     <frontend>
@@ -253,6 +253,36 @@
 			<general>
 				<active>1</active>
 			</general>
+            <form_submission_email>
+                <sender_name>Storename - Support Team</sender_name>
+            </form_submission_email>
+            <form_submission_email>
+                <sender_email>support@storename.com</sender_email>
+            </form_submission_email>
+            <form_submission_email>
+                <send_email_to_customer>1</send_email_to_customer>
+            </form_submission_email>
+            <form_submission_email>
+                <send_email_to_admin>1</send_email_to_admin>
+            </form_submission_email>
+            <form_submission_email>
+                <admin_email>admin-name@storename.com</admin_email>
+            </form_submission_email>
+            <form_submission_email>
+                <email_subject_for_customer>Thank you for contacting us</email_subject_for_customer>
+            </form_submission_email>
+            <form_submission_email>
+                <email_content_for_customer>&lt;h2&gt;Hello {{Name}}, &lt;/h2&gt;&lt;br&gt;&lt;br&gt;Thank you for contacting us. A company representative will contact you with more information within two business days.&lt;br&gt;&lt;br&gt;{{FormData}}&lt;br&gt;&lt;br&gt;Thank You,&lt;br&gt;{{Storename}}&lt;br&gt;Phone: {{Storephone}}</email_content_for_customer>
+            </form_submission_email>
+            <form_submission_email>
+                <email_subject_for_admin>Contact request received</email_subject_for_admin>
+            </form_submission_email>
+            <form_submission_email>
+                <email_content_for_admin>&lt;h2&gt;Hello Admin, &lt;/h2&gt;&lt;br&gt;&lt;br&gt;Have a look at the form submission by customer "{{CustomerEmail}}" from the store "{{Storename}}"&lt;br&gt;&lt;br&gt;{{FormData}}</email_content_for_admin>
+            </form_submission_email>
+            <custom_options>
+                <use_calendar>1</use_calendar>
+            </custom_options>
 		</formbuilder_section>
 	 </default>
 	 <adminhtml>

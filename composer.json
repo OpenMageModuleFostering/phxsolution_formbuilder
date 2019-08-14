@@ -3,11 +3,11 @@
     "type": "magento-module",
     "license": "OSLv3.0",
     "homepage": "",
-    "description": "Form Builder allows you to create any type of form right from admin panel. ",
+    "description": "Releasing update of the extension, version 0.3.0 with email Email functionality & Issues of Form title & Form status not getting saved.",
     "authors": [
     {
-        "name": "Murad Ali",
-        "email": "contact@phxsolution.com"
+        "name": "murad.magento",
+        "email": "plvaniya@phxsolution.com"
     }
 ],
     "suggest": {
