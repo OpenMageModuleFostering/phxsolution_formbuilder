@@ -370,5 +370,9 @@ class Phxsolution_Formbuilder_Helper_Data extends Mage_Core_Helper_Abstract
 			$resizedURL = $imageURL;
 		 }
 		 return $resizedURL;
-	}	
+	}
+    public function getImageUploadPath()
+    {
+        return "formbuilder/images/";
+    }
 }

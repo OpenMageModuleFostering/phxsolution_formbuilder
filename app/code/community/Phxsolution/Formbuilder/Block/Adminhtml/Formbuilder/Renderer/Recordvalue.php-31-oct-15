@@ -29,15 +29,20 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue e
 {     
     public function render(Varien_Object $row, $recordId=0, $fieldId=0, $serializedValue=0)
     {
+        /*$recordId = intval($row->getData('records_index'));
+        $fieldId = intval($this->getColumn()->getIndex());
+        $i = intval($this->getColumn()->getName());*/
+        $recordId = ($recordId) ? $recordId : intval($row->getData('records_index'));
         $fieldId = ($fieldId) ? $fieldId : intval($this->getColumn()->getIndex());
         $found = false;
         
 		//$serialized = 'a:3:{i:8;s:16:"test first name3";i:9;s:15:"test last name3";i:10;s:1:"7";}';
 		$serializedValue = ($serializedValue) ? $serializedValue : $row->getData('value');
 		$unserialized = unserialize($serializedValue);
-        $fieldsModel = Mage::helper('formbuilder')->getFieldsModel();
+        $recordsModel = Mage::helper('formbuilder')->getRecordsModel();
         foreach ($unserialized as $key => $value)
         {        	
+	        $recordsModel->load($recordId);
 	        if($key==$fieldId)
 	        {	
 	        	$found = true;
@@ -63,16 +68,10 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Recordvalue e
 			else
 			{
 				if(is_numeric($returnValue))
-				{					
-					$fieldsModel->load($fieldId);
-					if($fieldsModel["type"]=="field")
-						return $returnValue;
-					else
-					{
-						$optionsModel->load($returnValue);
-	        			if($title = $optionsModel['title'])
-	        				return $title;
-	        		}
+				{
+					$optionsModel->load($returnValue);				
+		        	if($title = $optionsModel['title'])
+		        		return $title;		        	
 		        }
 		        else
 	        	{

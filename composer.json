@@ -3,7 +3,7 @@
     "type": "magento-module",
     "license": "OSLv3.0",
     "homepage": "",
-    "description": "Fixed some bugs of version 0.3.0",
+    "description": "Fixed phone number and form image issues",
     "authors": [
     {
         "name": "murad.magento",

@@ -184,58 +184,50 @@ class Phxsolution_Formbuilder_Adminhtml_FormbuilderController extends Mage_Admin
 	{
 		if ($data = $this->getRequest()->getPost())
 		{			
-			/*echo "<pre>";
-			print_r($data);
-			echo "</pre>";
-			exit();*/
-
 			$model = Mage::getModel("formbuilder/forms")->load($this->getRequest()->getParam("id"));
 			$currentFormId = $this->getRequest()->getParam("id");
+			$_helper = Mage::helper("formbuilder");
 
 			//save image
-			try
+			if (isset($data['title_image']['delete']) && $data['title_image']['delete'] == 1)
 			{
-				if((bool)$data['title_image']['delete']==1)
-				{
-					$data['title_image']='';
-				}
-				else
-				{
-					unset($data['title_image']);
-					if (isset($_FILES))
-					{
-						if ($_FILES['title_image']['name'])
-						{
-							if($this->getRequest()->getParam("id"))
-							{
-								//$model = Mage::getModel("formbuilder/forms")->load($this->getRequest()->getParam("id"));
-								if($model->getData('title_image'))
-								{
-									$io = new Varien_Io_File();
-									$io->rm(Mage::getBaseDir('media').DS.implode(DS,explode('/',$model->getData('title_image'))));	
-								}
-							}
-							$path = Mage::getBaseDir('media') . DS . 'formbuilder/images' . DS;
-							$uploader = new Varien_File_Uploader('title_image');
-							$uploader->setAllowedExtensions(array('jpg','png','gif'));
-							$uploader->setAllowRenameFiles(false);
-							$uploader->setFilesDispersion(false);
-							$destFile = $path.$_FILES['title_image']['name'];
-							$filename = $uploader->getNewFileName($destFile);
-							$uploader->save($path, $filename);								
-															
-							$data['title_image']='formbuilder/images/'.$filename;
-						}
-					}
-				}
+				$data['title_image']='';
 			}
-			catch (Exception $e)
+			else
 			{
-				Mage::getSingleton('adminhtml/session')->addError($e->getMessage());
-				$this->_redirect('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
-				return;
-    		}
+				if(isset($_FILES['title_image']['name']) && $_FILES['title_image']['name'] != '')
+				{
+	                try
+	                {
+	                    $_helper = Mage::helper("formbuilder");
+	                    $path = Mage::getBaseDir('media').DS.$_helper->getImageUploadPath().DS;
+	                    $fname = $_FILES['title_image']['name'];
+	                    $fname = str_replace(' ', '_', $fname);
+	                    $uploader = new Varien_File_Uploader('title_image');
+	                    $uploader->setAllowedExtensions(array('jpg','jpeg','png','gif'));
+	                    $uploader->setAllowCreateFolders(true);
+	                    $uploader->setAllowRenameFiles(true);
+	                    $uploader->setFilesDispersion(false);
+	                    $destFile = $path.$fname;
+	                    $fname  = $uploader->getNewFileName($destFile);
+	                    $uploader->save($path,$fname);
+	                }
+	                catch (Exception $e)
+	                {
+	                    Mage::getSingleton('adminhtml/session')->addError(Mage::helper('formbuilder')->__('Error Message: '.$e->getMessage()));
+	                }
+			        //this way the name is saved in DB
+		  			$data['title_image'] = $_helper->getImageUploadPath().$fname;
+		  		}
+		  		else
+		  		{
+		  			unset($data['title_image']);
+		  		}
+			}
 			//save image ends
+
+
+
 			try
 			{				
 				//$model = Mage::getModel("formbuilder/forms")->load($this->getRequest()->getParam("id"));
@@ -312,6 +304,14 @@ class Phxsolution_Formbuilder_Adminhtml_FormbuilderController extends Mage_Admin
 		}
 		Mage::getSingleton('adminhtml/session')->addError(Mage::helper('formbuilder')->__('Unable to find Form to save'));
 		$this->_redirect('*/*/');
+	}
+	public function removeFile($file) 
+	{
+        $_helper = Mage::helper('ram');
+        $file = str_replace('\\', DS, $file);
+        $directory = Mage::getBaseDir('media') . DS .'formbuilder/images' ;
+        $io = new Varien_Io_File();
+        $result = $io->rmdir($directory, true);
 	}
 	public function createCmsPage($currentModel)
 	{

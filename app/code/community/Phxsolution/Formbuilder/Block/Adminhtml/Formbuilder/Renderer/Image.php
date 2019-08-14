@@ -29,9 +29,12 @@ class Phxsolution_Formbuilder_Block_Adminhtml_Formbuilder_Renderer_Image extends
 {     
     public function render(Varien_Object $row)
     {
+        $_helper = Mage::helper("formbuilder");
+        $getImageUploadPath = $_helper->getImageUploadPath();
+        $getMediaUrl = Mage::getUrl('media');
         $html = '<img ';
         $html .= 'id="' . $this->getColumn()->getId() . '" ';
-        $html .= 'src="'. Mage::getBaseUrl('media') . $row->getData('title_image') . '"';
+        $html .= 'src="'. $getMediaUrl . $row->getData('title_image') . '"';
         $html .= 'class="grid-image ' . $this->getColumn()->getInlineCss().'"';
 		$html .= 'style="weight:75px;height:75px"' . '"/>';
         if($row->getData('title_image'))
