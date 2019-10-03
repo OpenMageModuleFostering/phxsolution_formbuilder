@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Phxsolution_Formbuilder",
+    "name": "OpenMageModuleFostering\/Phxsolution_Formbuilder",
     "type": "magento-module",
     "license": "OSLv3.0",
     "homepage": "",
     "description": "Fixed phone number and form image issues",
     "authors": [
-    {
-        "name": "murad.magento",
-        "email": "plvaniya@phxsolution.com"
-    }
-],
+        {
+            "name": "murad.magento",
+            "email": "plvaniya@phxsolution.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
